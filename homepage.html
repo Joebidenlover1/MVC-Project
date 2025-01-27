@@ -4,224 +4,203 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Would You Rather</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --color-bg: black;
+      --color-question: #fff;
+      --color-choice1-start: #ff6a6a;
+      --color-choice1-end: #ff3c3c;
+      --color-choice2-start: #3c8cff;
+      --color-choice2-end: #3c4cff;
+      --color-text: white;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
-      text-align: center;
-      overflow-y: scroll;
-    }
-
-    .navbar {
-      background-color: #333;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      padding: 10px;
-      position: sticky;
-      top: 0;
-    }
-
-    .navbar a {
-      color: white;
-      text-decoration: none;
-      padding: 14px 20px;
-    }
-
-    .navbar a:hover {
-      background-color: #ddd;
-      color: black;
-    }
-
-    .container {
-      margin: 50px 0;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-color: var(--color-bg);
+      position: relative;
     }
 
-    .choice-section {
-      margin: 50px 0;
+    .container {
       display: flex;
-      justify-content: space-around;
       width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 1;
     }
 
-    .button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 30px;
+    .choice {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      color: var(--color-text);
+      border-radius: 50px;
       text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 10px;
       cursor: pointer;
-      border-radius: 5px;
-      flex: 1; /* Allow buttons to take equal space */
-      max-width: 200px; /* Max width for buttons */
+      transition: transform 0.3s, background 0.3s;
+      margin: 10px; /* Added margin for spacing */
+      padding: 20px; /* Added padding for better touch targets */
     }
 
-    .button:hover {
-      background-color: #FF0000;
+    #choice1 {
+      background: linear-gradient(to right, var(--color-choice1-start), var(--color-choice1-end));
+    }
+
+    #choice2 {
+      background: linear-gradient(to right, var(--color-choice2-start), var(--color-choice2-end));
+    }
+
+    .choice:hover {
+      opacity: 0.9; /* Slightly dim the choice on hover */
+    }
+
+    .question {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      font-size: 2rem;
+      color: var(--color-question);
+      text-align: center;
+      z-index: 2;
     }
 
     #finalMessage {
       display: none;
+      font-size: 2rem;
+      color: var(--color-question);
       margin-top: 20px;
     }
   </style>
   <script>
-    let currentSection = 1;
+    let currentSection = 0;
+    const questions = [
+      {
+        question: "Would you rather have the ability to see 10 minutes into the future or 150 years into the future?",
+        choice1: "10 Minutes",
+        choice2: "150 Years"
+      },
+      {
+        question: "Would you rather have telekinesis or telepathy?",
+        choice1: "Telekinesis",
+        choice2: "Telepathy"
+      },
+      {
+        question: "Would you rather team up with Wonder Woman or Captain Marvel?",
+        choice1: "Wonder Woman",
+        choice2: "Captain Marvel"
+      },
+      {
+        question: "Would you rather be forced to sing along or dance to every single song you hear?",
+        choice1: "Sing Along",
+        choice2: "Dance"
+      },
+      {
+        question: "Would you rather find true love today or win the lottery next year?",
+        choice1: "True Love",
+        choice2: "Win the Lottery"
+      },
+      {
+        question: "Would you rather be in jail for five years or be in a coma for a decade?",
+        choice1: "Jail for 5 Years",
+        choice2: "Coma for 10 Years"
+      },
+      {
+        question: "Would you rather have another 10 years with your partner or a one-night stand with your celebrity crush?",
+        choice1: "10 More Years",
+        choice2: "One-Night Stand"
+      },
+      {
+        question: "Would you rather be chronically under-dressed or overdressed?",
+        choice1: "Under-dressed",
+        choice2: "Overdressed"
+      },
+      {
+        question: "Would you rather have everyone you know be able to read your thoughts or have access to your Internet history?",
+        choice1: "Read Thoughts",
+        choice2: "Internet History"
+      },
+      {
+        question: "Would you rather lose your sight or your memories?",
+        choice1: "Lose Sight",
+        choice2: "Lose Memories"
+      },
+      {
+        question: "Would you rather have universal respect or unlimited power?",
+        choice1: "Universal Respect",
+        choice2: "Unlimited Power"
+      },
+      {
+        question: "Would you rather give up air conditioning and heating for the rest of your life or give up the Internet for the rest of your life?",
+        choice1: "Give Up AC/Heating",
+        choice2: "Give Up Internet"
+      },
+      {
+        question: "Would you rather eat d*** sitting on a cake or eat cake sitting on d***?",
+        choice1: "D***",
+        choice2: "Cake :)"
+      }
+    ];
 
-    function vote() {
-      // Hide the current section
-      document.getElementById(`section${currentSection}`).style.display = 'none';
-
-      // Show the next section or final message
-      if (currentSection < 13) {
-        currentSection++;
-        document.getElementById(`section${currentSection}`).style.display = 'block';
+    function loadQuestion() {
+      if (currentSection < questions.length) {
+        const { question, choice1, choice2 } = questions[currentSection];
+        document.getElementById('question').textContent = question;
+        document.getElementById('choice1Text').textContent = choice1;
+        document.getElementById('choice2Text').textContent = choice2;
       } else {
-        document.getElementById('finalMessage').style.display = 'block';
+        showFinalMessage();
       }
     }
 
-    function showFirstSection() {
-      document.querySelectorAll('.choice-section').forEach(section => {
-        section.style.display = 'none';
-      });
-      document.getElementById('section1').style.display = 'block';
+    function selectChoice() {
+      document.querySelector('.container').style.transform = `translateX(-100%)`;
+
+      setTimeout(() => {
+        currentSection++;
+        loadQuestion();
+        document.querySelector('.container').style.transform = `translateX(0)`;
+      }, 2000); // 2 seconds delay before loading next question
     }
 
-    window.onload = showFirstSection;
+    function showFinalMessage() {
+      document.querySelector('.container').style.display = 'none';
+      document.getElementById('finalMessage').style.display = 'block';
+    }
+
+    window.onload = () => {
+      loadQuestion();
+      document.getElementById('choice1').addEventListener('click', selectChoice);
+      document.getElementById('choice2').addEventListener('click', selectChoice);
+    };
   </script>
 </head>
 <body>
 
+<div class="question" id="question"></div>
+
 <div class="container">
-  <div class="choice-section" id="section1">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather have the ability to see 10 minutes into the future or 150 years into the future?</p>
-    <div>
-      <button class="button" onclick="vote()">10 Minutes</button>
-      <button class="button" onclick="vote()">150 Years</button>
-    </div>
+  <div class="choice" id="choice1">
+    <h1 id="choice1Text"></h1>
   </div>
-
-  <div class="choice-section" id="section2" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather have telekinesis or telepathy?</p>
-    <div>
-      <button class="button" onclick="vote()">Telekinesis</button>
-      <button class="button" onclick="vote()">Telepathy</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section3" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather team up with Wonder Woman or Captain Marvel?</p>
-    <div>
-      <button class="button" onclick="vote()">Wonder Woman</button>
-      <button class="button" onclick="vote()">Captain Marvel</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section4" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather be forced to sing along or dance to every single song you hear?</p>
-    <div>
-      <button class="button" onclick="vote()">Sing Along</button>
-      <button class="button" onclick="vote()">Dance</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section5" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather find true love today or win the lottery next year?</p>
-    <div>
-      <button class="button" onclick="vote()">True Love</button>
-      <button class="button" onclick="vote()">Win the Lottery</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section6" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather be in jail for five years or be in a coma for a decade?</p>
-    <div>
-      <button class="button" onclick="vote()">Jail for 5 Years</button>
-      <button class="button" onclick="vote()">Coma for 10 Years</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section7" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather have another 10 years with your partner or a one-night stand with your celebrity crush?</p>
-    <div>
-      <button class="button" onclick="vote()">10 More Years</button>
-      <button class="button" onclick="vote()">One-Night Stand</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section8" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather be chronically under-dressed or overdressed?</p>
-    <div>
-      <button class="button" onclick="vote()">Under-dressed</button>
-      <button class="button" onclick="vote()">Overdressed</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section9" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather have everyone you know be able to read your thoughts or have access to your Internet history?</p>
-    <div>
-      <button class="button" onclick="vote()">Read Thoughts</button>
-      <button class="button" onclick="vote()">Internet History</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section10" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather lose your sight or your memories?</p>
-    <div>
-      <button class="button" onclick="vote()">Lose Sight</button>
-      <button class="button" onclick="vote()">Lose Memories</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section11" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather have universal respect or unlimited power?</p>
-    <div>
-      <button class="button" onclick="vote()">Universal Respect</button>
-      <button class="button" onclick="vote()">Unlimited Power</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section12" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather give up air conditioning and heating for the rest of your life or give up the Internet for the rest of your life?</p>
-    <div>
-      <button class="button" onclick="vote()">Give Up AC/Heating</button>
-      <button class="button" onclick="vote()">Give Up Internet</button>
-    </div>
-  </div>
-
-  <div class="choice-section" id="section13" style="display: none;">
-    <h1>Would You Rather?</h1>
-    <p>Would you rather eat dick sitting on a cake or eat cake sitting on dick?</p>
-    <div>
-      <button class="button" onclick="vote()">D!ck</button>
-      <button class="button" onclick="vote()">Cake :)</button>
-    </div>
-  </div>
-
-  <div id="finalMessage">
-    <h2>Thank you for participating!</h2>
+  <div class="choice" id="choice2">
+    <h1 id="choice2Text"></h1>
   </div>
 </div>
+
+<div id="finalMessage">
+  <h2>Thank you for participating!</h2>
+</div>
+
 </body>
 </html>
