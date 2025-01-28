@@ -19,7 +19,6 @@
     body {
       font-family: 'Roboto', sans-serif;
       margin: 0;
-      padding: 0;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -46,9 +45,8 @@
       font-size: 2rem;
       color: var(--color-text);
       border-radius: 50px;
-      text-align: center;
       cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
+      transition: opacity 0.3s;
       margin: 10px;
       padding: 20px;
     }
@@ -81,6 +79,48 @@
       color: var(--color-question);
       margin-top: 20px;
     }
+
+    #navIcon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background-color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s;
+      z-index: 3;
+    }
+
+    #navIcon:hover {
+      background-color: #eee;
+    }
+
+    #navMenu {
+      display: none;
+      position: absolute;
+      top: 80px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 4;
+    }
+
+    .navItem {
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .navItem:hover {
+      background-color: #f0f0f0;
+    }
   </style>
   <script>
     class Question {
@@ -110,7 +150,6 @@
 
       selectChoice() {
         document.querySelector('.container').style.transform = `translateX(-100%)`;
-
         setTimeout(() => {
           this.currentSection++;
           this.loadQuestion();
@@ -121,6 +160,20 @@
       showFinalMessage() {
         document.querySelector('.container').style.display = 'none';
         document.getElementById('finalMessage').style.display = 'block';
+      }
+    }
+
+    class Navigation {
+      constructor(iconId, menuId) {
+        this.icon = document.getElementById(iconId);
+        this.menu = document.getElementById(menuId);
+        this.init();
+      }
+
+      init() {
+        this.icon.addEventListener('click', () => {
+          this.menu.style.display = this.menu.style.display === 'block' ? 'none' : 'block';
+        });
       }
     }
 
@@ -143,9 +196,9 @@
 
       const game = new Game(questions);
       game.loadQuestion();
-
       document.getElementById('choice1').addEventListener('click', () => game.selectChoice());
       document.getElementById('choice2').addEventListener('click', () => game.selectChoice());
+      new Navigation('navIcon', 'navMenu');
     };
   </script>
 </head>
@@ -165,6 +218,13 @@
 <div id="finalMessage">
   <h2>Thank you for participating!</h2>
   <img src="download.jpg" height="92" width="92"/>
+</div>
+
+<div id="navIcon">?</div>
+
+<div id="navMenu">
+  <div class="navItem">Login</div>
+  <div class="navItem">About</div>
 </div>
 
 </body>
