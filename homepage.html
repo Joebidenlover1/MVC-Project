@@ -110,12 +110,15 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       z-index: 4;
+      flex-direction: column; /* Stack items vertically */
     }
 
     .navItem {
+      display: block; /* Make items block elements */
       padding: 10px 20px;
       cursor: pointer;
-      border-bottom: 1px solid #ccc;
+      text-decoration: none;
+      color: black;
     }
 
     .navItem:hover {
@@ -223,8 +226,8 @@
 <div id="navIcon">:) ?</div>
 
 <div id="navMenu">
-  <a class="navItem" href="inlog.html">Login</a> 
-  <div class="navItem">About</div>
+  <a class="navItem" href="inlog.html">Login</a>
+  <a class="navItem" href="results.html">About</a>
 </div>
 
 </body>
