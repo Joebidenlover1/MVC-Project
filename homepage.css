@@ -1,0 +1,119 @@
+:root {
+    --color-bg: black;
+    --color-question: #fff;
+    --color-choice1-start: #ff6a6a;
+    --color-choice1-end: #ff3c3c;
+    --color-choice2-start: #3c8cff;
+    --color-choice2-end: #3c4cff;
+    --color-text: white;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--color-bg);
+    position: relative;
+  }
+  
+  .container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .choice {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: var(--color-text);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    margin: 10px;
+    padding: 20px;
+  }
+  
+  #choice1 {
+    background: linear-gradient(to right, var(--color-choice1-start), var(--color-choice1-end));
+  }
+  
+  #choice2 {
+    background: linear-gradient(to right, var(--color-choice2-start), var(--color-choice2-end));
+  }
+  
+  .choice:hover {
+    opacity: 0.9;
+  }
+  
+  .question {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    font-size: 2rem;
+    color: var(--color-question);
+    text-align: center;
+    z-index: 2;
+  }
+  
+  #finalMessage {
+    display: none;
+    font-size: 2rem;
+    color: var(--color-question);
+    margin-top: 20px;
+  }
+  
+  #navIcon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s;
+    z-index: 3;
+  }
+  
+  #navIcon:hover {
+    background-color: #eee;
+  }
+  
+  #navMenu {
+    display: none;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 4;
+    flex-direction: column;
+  }
+  
+  .navItem {
+    display: block;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+  }
+  
+  .navItem:hover {
+    background-color: #f0f0f0;
+  }
+  
