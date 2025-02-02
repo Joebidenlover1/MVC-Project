@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.profile-container {
+    width: 90%;
+    height: 39.5%;
+    scale: 100%;
+    background: white;
+    padding-bottom: 600px;
+    padding: 477px; 
+    background-image: url('light-blue-red-blurred-background-vector.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.profile-header {
+    font-size: 90px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: -300px;
+    margin-left: 300px;
+    margin-bottom: 200px;
+}
+
+.profile-info {
+    font-size: 26px;
+    margin-top: -50px;
+}
+
+.profile-info p {
+    margin: 10px 0;
+    padding: 42px;
+    padding-top: 0px;
+    padding-left: 120px;
+    color: #ffffff;;
+}
+
+
+
+
+/* Hide the checkbox */
+.nav-checkbox {
+    display: none;
+}
+
+/* Style the menu icon */
+.nav-icon {
+    font-size: 20px;
+    cursor: pointer;
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Style the navigation menu */
+.nav-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    width: 150px;
+}
+
+/* Style the menu links */
+.navItem {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    transition: background 0.3s;
+}
+
+.navItem:hover {
+    background: #ddd;
+}
+
+/* Toggle menu visibility when checkbox is checked */
+.nav-checkbox:checked + .nav-icon + .nav-menu {
+    display: block;
+}

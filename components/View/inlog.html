@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pick Your Favorite</title>
+  <link rel="stylesheet" href="inlog.css">
+  <script src="inlog.js"></script>
+</head>
+<body onload="showLoginPage()">
+<div id="login-page" class="login-container">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <button onclick="login()">Login</button>
+</div>
+
+<div id="main-content" class="hidden">
+  <div class="navbar">
+    <a href="#">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div class="container">
+    <div class="choice-section" id="section1">
+      <h1>What Do You Prefer? (Pair 1)</h1>
+      <button class="button" onclick="vote('section1', 'A')">Subject A</button>
+      <button class="button" onclick="vote('section1', 'B')">Subject B</button>
+
+      <div class="counter">
+        <p>Subject A votes: <span id="countA-section1">0</span></p>
+        <p>Subject B votes: <span id="countB-section1">0</span></p>
+      </div>
+    </div>
+
+    <div class="choice-section" id="section2">
+      <h1>What Do You Prefer? (Pair 2)</h1>
+      <button class="button" onclick="vote('section2', 'A')">Subject A</button>
+      <button class="button" onclick="vote('section2', 'B')">Subject B</button>
+
+      <div class="counter">
+        <p>Subject A votes: <span id="countA-section2">0</span></p>
+        <p>Subject B votes: <span id="countB-section2">0</span></p>
+      </div>
+    </div>
+
+    <div class="choice-section" id="section3">
+      <h1>What Do You Prefer? (Pair 3)</h1>
+      <button class="button" onclick="vote('section3', 'A')">Subject A</button>
+      <button class="button" onclick="vote('section3', 'B')">Subject B</button>
+
+      <div class="counter">
+        <p>Subject A votes: <span id="countA-section3">0</span></p>
+        <p>Subject B votes: <span id="countB-section3">0</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2025 Your Website | All Rights Reserved</p>
+  </div>
+</div>
+</body>
+</html>
