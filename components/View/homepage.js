@@ -53,7 +53,7 @@ class Navigation {
 }
 
 window.onload = () => {
-    const questions = getQuestions(); // Fetch questions from the controller
+    const questions = getQuestions(); 
     const game = new Game(questions);
     game.loadQuestion();
     document.getElementById('choice1').addEventListener('click', () => game.selectChoice());
