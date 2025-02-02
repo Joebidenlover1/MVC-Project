@@ -1,4 +1,4 @@
-// Mock function to simulate database retrieval
+
 function fetchQuestions() {
     return [
         new Question("Would you rather have the ability to see 10 minutes into the future or 150 years into the future?", "10 Minutes", "150 Years"),
@@ -13,6 +13,5 @@ function fetchQuestions() {
         new Question("Would you rather lose your sight or your memories?", "Lose Sight", "Lose Memories"),
         new Question("Would you rather have universal respect or unlimited power?", "Universal Respect", "Unlimited Power"),
         new Question("Would you rather give up air conditioning and heating for the rest of your life or give up the Internet for the rest of your life?", "Give Up AC/Heating", "Give Up Internet"),
-        new Question("Would you rather eat d*** sitting on a cake or eat cake sitting on d***?", "D***", "Cake :)")
     ];
 }
