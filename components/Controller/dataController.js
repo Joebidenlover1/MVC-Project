@@ -1,4 +1,0 @@
-
-function getQuestions() {
-    return fetchQuestions(); 
-}
