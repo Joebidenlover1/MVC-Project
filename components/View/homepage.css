@@ -19,6 +19,7 @@ body {
     overflow: hidden;
     background-color: var(--color-bg);
     position: relative;
+    color: var(--color-text);
 }
 
 .container {
@@ -27,20 +28,22 @@ body {
     height: 100%;
     position: relative;
     z-index: 1;
+    transition: transform 0.5s ease-in-out;
 }
 
 .choice {
     flex: 1;
     display: flex;
+    flex-direction: column; /* Align items vertically */
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    color: var(--color-text);
     border-radius: 50px;
     cursor: pointer;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
     margin: 10px;
     padding: 20px;
+    color: var(--color-text);
 }
 
 #choice1 {
@@ -53,16 +56,28 @@ body {
 
 .choice:hover {
     opacity: 0.9;
+    transform: scale(1.05);
 }
 
 .question {
-    position: absolute;
-    top: 20px;
+    display: block;
+    margin: 20px 0;
     width: 100%;
     font-size: 2rem;
     color: var(--color-question);
     text-align: center;
     z-index: 2;
+    border: 2px solid var(--color-question);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+}
+
+.results {
+    font-size: 32px;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
 }
 
 #finalMessage {
@@ -70,6 +85,7 @@ body {
     font-size: 2rem;
     color: var(--color-question);
     margin-top: 20px;
+    text-align: center;
 }
 
 .nav-checkbox {
@@ -120,4 +136,31 @@ body {
 
 .nav-checkbox:checked + .nav-icon + .nav-menu {
     display: block;
+}
+
+.voteResults {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+
+.voteResults.fade-in {
+    opacity: 1;
+}
+@media (max-width: 600px) {
+    .choice {
+        font-size: 1.5rem;
+        padding: 10px;
+    }
+
+    .question {
+        font-size: 1.5rem;
+    }
+
+    .results {
+        font-size: 24px;
+    }
+
+    #finalMessage {
+        font-size: 1.5rem;
+    }
 }

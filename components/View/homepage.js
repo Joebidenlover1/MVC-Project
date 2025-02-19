@@ -1,62 +1,104 @@
 class Question {
-    constructor(question, choice1, choice2) {
-        this.question = question;
-        this.choice1 = choice1;
-        this.choice2 = choice2;
+    constructor(data) {
+        this.id = data.id;
+        this.question = data.question;
+        this.choice1 = data.choice1;
+        this.choice2 = data.choice2;
+        this.votes1 = data.votes1 || 0;
+        this.votes2 = data.votes2 || 0;
+    }
+
+    getPercentage1() {
+        const totalVotes = this.votes1 + this.votes2;
+        return totalVotes === 0 ? 0 : Math.round((this.votes1 / totalVotes) * 100);
+    }
+
+    getPercentage2() {
+        const totalVotes = this.votes1 + this.votes2;
+        return totalVotes === 0 ? 0 : Math.round((this.votes2 / totalVotes) * 100);
     }
 }
 
 class Game {
-    constructor(questions) {
-        this.questions = questions;
+    constructor() {
+        this.questions = [];
         this.currentSection = 0;
+        this.isVoting = false;
+        this.questionsAnswered = 0; // Counter for answered questions
+        this.init();
     }
 
-    loadQuestion() {
+    async init() {
+        const rawQuestions = await this.getQuestions();
+        this.questions = rawQuestions.map(data => new Question(data));
+        this.loadQuestion();
+    }
+
+    async loadQuestion() {
         if (this.currentSection < this.questions.length) {
             const { question, choice1, choice2 } = this.questions[this.currentSection];
             document.getElementById('question').textContent = question;
             document.getElementById('choice1Text').textContent = choice1;
             document.getElementById('choice2Text').textContent = choice2;
+            document.getElementById('voteResults').style.display = 'none';
+            document.getElementById('option1-results').textContent = '';
+            document.getElementById('option2-results').textContent = '';
         } else {
             this.showFinalMessage();
         }
     }
 
-    selectChoice() {
-        document.querySelector('.container').style.transform = `translateX(-100%)`;
+    async selectChoice(choice) {
+        if (this.isVoting) return;
+
+        this.isVoting = true;
+        const questionId = this.questions[this.currentSection]?.id;
+        if (questionId) {
+            await this.submitVote(questionId, choice);
+            this.questionsAnswered++; // Increment the counter
+        }
+        this.loadVoteResults(questionId);
+
         setTimeout(() => {
             this.currentSection++;
+            this.isVoting = false;
             this.loadQuestion();
-            document.querySelector('.container').style.transform = `translateX(0)`;
         }, 2000);
     }
 
-    showFinalMessage() {
-        document.querySelector('.container').style.display = 'none';
-        document.getElementById('finalMessage').style.display = 'block';
-    }
-}
-
-class Navigation {
-    constructor(iconId, menuId) {
-        this.icon = document.getElementById(iconId);
-        this.menu = document.getElementById(menuId);
-        this.init();
+    loadVoteResults(id) {
+        const questionData = this.questions.find(q => q.id === id);
+        document.getElementById('option1-results').textContent = `${questionData.getPercentage1()}%`;
+        document.getElementById('option2-results').textContent = `${questionData.getPercentage2()}%`;
+        document.getElementById('voteResults').style.display = 'block'; // Show results
     }
 
-    init() {
-        this.icon.addEventListener('click', () => {
-            this.menu.style.display = this.menu.style.display === 'block' ? 'none' : 'block';
+    async getQuestions() {
+        const response = await fetch('../Controller/controller.php');
+        return response.json();
+    }
+
+    async submitVote(id, choice) {
+        await fetch('../Controller/controller.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: id, choice: choice }),
         });
+    }
+
+    showFinalMessage() {
+        document.getElementById('question').style.display = 'none';
+        document.querySelector('.container').style.display = 'none';
+        const finalMessageElement = document.getElementById('finalMessage');
+        finalMessageElement.textContent = `Thank you for participating! You answered ${this.questionsAnswered} questions.`; // Updated message with count
+        finalMessageElement.style.display = 'block'; // Show final message
     }
 }
 
 window.onload = () => {
-    const questions = getQuestions(); 
-    const game = new Game(questions);
-    game.loadQuestion();
-    document.getElementById('choice1').addEventListener('click', () => game.selectChoice());
-    document.getElementById('choice2').addEventListener('click', () => game.selectChoice());
-    new Navigation('navIcon', 'navMenu');
+    const game = new Game();
+    document.getElementById('choice1').addEventListener('click', () => game.selectChoice('1'));
+    document.getElementById('choice2').addEventListener('click', () => game.selectChoice('2'));
 };

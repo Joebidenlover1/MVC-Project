@@ -23,7 +23,6 @@ class Database {
             $stmt->bind_result($hashed_password);
             $stmt->fetch();
 
-            // Verify hashed password
             return password_verify($password, $hashed_password);
         }
         return false;

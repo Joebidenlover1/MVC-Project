@@ -19,7 +19,7 @@ function attemptLogin() {
     .then(response => response.json())
     .then(data => {
         if (data.status === "success") {
-            window.location.href = "homepage.html"; // Redirect to homepage if login is successful
+            window.location.href = "homepage.html";
         } else {
             errorMessage.textContent = data.message;
             errorMessage.style.display = "block";
