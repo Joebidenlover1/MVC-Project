@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Would You Rather</title>
+  <link rel="stylesheet" href="homepage.css">
+  <script src="homepage.js" defer></script>
+  <script src="../Controller/controller.php"></script>
+  <script src="../Model/model.php"></script>
+</head>
+<body>
+
+<div class="question" id="question"></div>
+<div id="voteResults" class="voteResults" style="display: none;"></div>
+
+<div class="container">
+  <div class="choice" id="choice1">
+    <h1 id="choice1Text"></h1>
+    <span id="option1-results" class="results"></span>
+  </div>
+  <div class="choice" id="choice2">
+    <h1 id="choice2Text"></h1>
+    <span id="option2-results" class="results"></span>
+  </div>
+</div>
+
+<div id="finalMessage" style="display: none">
+  <h2>Thank you for participating!</h2>
+</div>
+
+<input type="checkbox" id="navToggle" class="nav-checkbox">
+<label for="navToggle" id="navIcon" class="nav-icon">☰</label>
+
+<div id="navMenu" class="nav-menu">
+  <a class="navItem" href="inlog.html">Login</a>
+  <a class="navItem" href="profile.html">Profile</a>
+</div>
+
+</body>
+</html>
